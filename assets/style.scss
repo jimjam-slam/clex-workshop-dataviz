@@ -1,0 +1,196 @@
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;700&family=JetBrains+Mono:ital,wght@0,300;0,700;1,300;1,700&family=DM+Serif+Display:ital@0;1&display=swap');
+
+
+$font-family-sans-serif: "Inter", Helvetica, sans-serif !default;
+$font-family-monospace: "JetBrains Mono", monospace !default;
+$presentation-heading-font: "DM Serif Display", serif, !default;
+$presentation-h1-font-size: 3em;
+$presentation-h2-font-size: 1.9em;
+
+/*-- scss:rules --*/
+
+.reveal {
+
+  .slide.hcenter {
+    text-align: center;
+  }
+
+  p, li {
+    color: #464f59;
+  }
+
+  // cover slide
+
+  .slides section:first-child {
+    h1 {
+      font-weight: 800;
+      background: linear-gradient(45deg, #5d14c3, #ab0b48);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    h3 {
+      font-weight: normal;
+      font-style: normal;
+      color: #410e89;
+
+    }
+
+    .authorbox {
+      margin-top: 50px;
+      font-size: 60%;
+      color: #5d14c3;
+    }
+  }
+  
+
+  .hl {
+    background-color: #00002218;
+    padding: 0.1em 0.25em;
+    font-weight: bold;
+  }
+
+  pre.sourceCode code.sourceCode {
+    background-color: #f7fafc;
+  }
+
+  // utility
+
+  .small {
+    font-size: 70%;
+    color: #708090;
+  }
+
+  .slide img.r-stretch + p.caption {
+    text-transform: uppercase;
+    color: #97aec4;
+  }
+
+  /* use :has to target entire sections, like section.stack:has(#section-1) */
+  section.stack:has(#section-cloud) {
+    p, li {
+      color: #16365a;
+    }
+
+    .small {
+      color: #16365a;
+      opacity: 0.7;
+    }
+
+    strong {
+      filter: brightness(90%) contrast(150%);
+    }
+
+    h1, h2, h3 {
+      background: linear-gradient(45deg, #16365a, #268b98);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .slide img.r-stretch + p.caption {
+      text-transform: uppercase;
+      color: #16365a;
+      opacity: 0.4;
+    }
+  }
+
+  section.stack:has(#section-outofcloud) {
+    p, li {
+      color: #4b1625;
+    }
+
+    .small {
+      color: #4b1625;
+      opacity: 0.7;
+    }
+
+    strong {
+      filter: brightness(90%) contrast(150%);
+    }
+
+    h1, h2, h3 {
+      background: linear-gradient(45deg, #4b1625, #b8370f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .slide img.r-stretch + p.caption {
+      text-transform: uppercase;
+      color: #4b1625;
+      opacity: 0.4;
+    }
+  }
+
+  section.stack:has(#section-summary) {
+    p, li {
+      color: #164b3a;
+    }
+
+    .small {
+      color: #164b3a;
+      opacity: 0.7;
+    }
+
+    strong {
+      filter: brightness(90%) contrast(150%);
+    }
+
+    h1, h2, h3 {
+      background: linear-gradient(45deg, #1073a0, rgb(12, 172, 97));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .slide img.r-stretch + p.caption {
+      text-transform: uppercase;
+      color: #164b3a;
+      opacity: 0.4;
+    }
+  }
+
+
+}
+
+#qwebr-status-message-area {
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  font-family: "Inter";
+  font-size: 75%;
+  opacity: 0.25;
+
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5em;
+
+  #qwebr-status-message-title,
+  #qwebr-status-message-body {
+    text-transform: uppercase;
+    color: black;
+  }
+}
+
+#qpyodide-status-message-area {
+  position: absolute;
+  top: 2em;
+  right: 0.5em;
+  font-family: "Inter";
+  font-size: 75%;
+  opacity: 0.25;
+
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5em;
+
+  #qpyodide-status-message-title,
+  #qpyodide-status-message-body {
+    text-transform: uppercase;
+    color: black;
+  }
+}

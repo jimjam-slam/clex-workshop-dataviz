@@ -1,0 +1,703 @@
+---
+title: "Exercises"
+---
+
+# Introduction
+
+Before we do any visualisations, we need to load and transform the data we'll use. Run the following chunks to get set up.
+
+::: {.callout-tip}
+If you accidentally close the R terminal, you can run these chunks again in a new one!
+:::
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(here)
+
+# these are the folders we'll use
+data_path <- here("data")
+plot_path <- here("plots")
+weather_path <-  here("data", "weather")
+dir.create(plot_path, showWarnings = FALSE)
+```
+
+# Exercise 1: working with time series data
+
+## Analysis
+
+```{r}
+#| label: analyse-weather
+
+# load the min and max temperature obs in
+obs_min <-
+  read_csv(here(weather_path, "IDCJAC0011_086068_1800_Data.csv")) |>
+  janitor::clean_names() |>
+  select(year, month, day, tmin = minimum_temperature_degree_c)
+obs_max <-
+  read_csv(here(weather_path, "IDCJAC0010_086068_1800_Data.csv")) |>
+  janitor::clean_names() |>
+  select(year, month, day, tmax = maximum_temperature_degree_c)
+
+# bring min and max obs together; subset to 2015-2018
+obs <-
+  full_join(obs_min, obs_max, join_by(year, month, day)) |>
+  filter(between(year, 2005, 2018)) |>
+  mutate(date = ymd(paste(year, month, day)))
+```
+
+```{r}
+#| label: load-electricity
+
+site_ids <- c("NC", "PM", "DA")
+
+# get provider info for citipower
+info <-
+  read_csv(
+    here(data_path, "electricity",
+      "DNSP_Zone_Substation_Characteristics.csv")) |>
+  janitor::clean_names() |>
+  # get first word of of the provider name
+  mutate(dnsp_short = tolower(word(distribution_network_service_provider))) |>
+  # focus on citipower only
+  filter(dnsp_short == tolower("citipower")) |>
+  select(
+    -distribution_network_service_provider,
+    -energy_asset,
+    -zone_substation_area_km2) |>
+  rename(
+    name = zone_substation_name,
+    id = zone_substation_id) |>
+  select(dnsp_short, name, id, everything())
+
+# get the 3 most common uses for each site
+info_3sites <-
+  info |>
+  filter(id %in% site_ids) |>
+  select(-dnsp_short, -dwellings, -persons) |>
+  pivot_longer(-c(name, id), names_to = "Use", values_to = "fraction") |>
+  group_by(id, name) |>
+  arrange(desc(fraction)) |>
+  slice(1:3) |>
+  mutate(use_string = paste0(
+    str_to_sentence(Use), ": ",
+    scales::percent(fraction))) |>
+  summarise(area_string = paste(use_string, collapse = "\n")) |>
+  ungroup()
+
+# get citipower electricity demand
+demand <-
+  read_csv(
+    here(data_path, "electricity", "citipower_2005_2017.csv"),
+    na = c("nan", "NA", "")) |>
+  # remove neagtive demand values
+  mutate(across(-datetime, ~ replace(.x, .x < 0, NA_real_))) |>
+  # calculate each day's max demand (half hourly is a bit much)
+  mutate(date = as.Date(datetime), .before = everything()) |>
+  group_by(date) |>
+  summarise(across(everything(), ~ max(.x, na.rm = TRUE))) |>
+  select(-datetime)
+```
+
+```{r}
+#| label: merge-and-tidy
+
+# merge obs and demand; separate out weekends (and further slice to 2015 onward)
+df <-
+  inner_join(obs, demand, join_by(date)) |>
+  filter(year >= 2015) |>
+  mutate(
+    working = if_else(
+      weekdays(date) %in% c("Saturday", "Sunday"),
+      "Weekend",
+      "Weekday"))
+
+# make this longer (separate row for each site) and focus on 3 sites  
+df_long <-
+  df |>
+  tidyr::pivot_longer(
+    -c(year, month, day, tmin, tmax, date, working),
+    names_to = "site",
+    values_to = "demand") |>
+  filter(site %in% site_ids) |>
+  filter(!is.infinite(demand)) |>
+  # also merge in the site names and use info
+  left_join(info_3sites, join_by(site == id), multiple = "all") |>
+  select(site, name, everything())
+```
+
+Let's have a look at our processed data, `df_long`:
+
+```{r}
+#| label: view-data
+View(df_long)
+```
+
+Okay, we're ready to visualise the data!
+
+## Plotting
+
+Here's a base plot to start from. it has all the essential elements:
+
+```{r}
+#| label: plot-base
+
+ggplot(df_long) +
+  aes(x = tmax, y = demand, colour = working) +
+  geom_point(size = 2) +
+  facet_wrap(vars(name)) +
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]")
+```
+
+How could we change it?
+
+Here's a copy of the above chunk—try modifying it!
+
+```{r}
+#| label: modified-plot-base
+
+ggplot(df_long) +
+  aes(x = tmax, y = demand, colour = working) +
+  geom_point(size = 2) +
+  facet_wrap(vars(name)) +
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]")
+```
+
+:::{.callout=tip}
+The interactive viewer has some not great fonts.
+
+If you save a plot by assigning it to a variable and then calling `ggsave()`,
+you'll see better looking fonts!
+
+```{r}
+#| label: font-ggsave-example
+
+my_plot <- ggplot(mtcars) + aes(mpg, hp) + geom_point() + labs(title = "Title")
+ggsave(here("test.png"), my_plot)
+```
+
+:::
+
+Not sure how to implement some of your ideas? We'll discuss together afterward, but in the mean time, scroll down for some ideas...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(keep scrolling!)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Exercise 1 Ideas
+
+### Changing the colours used for weekends and weekdays
+
+Use `scale_color_brewer` to choose a colour palette from <colorbrewer2.org>, or use `scale_color_manual` to link custom colours to values yourself!
+
+The [`{ggplot2}` docs](https://ggplot2.tidyverse.org/reference/#scales) have lots of other `scale_colour_*` and `scale_fill_*` functions for generating colour scales.
+
+:::{.callout-tip}
+`scale_color_manual` is particularly handy if you need to make several plots representing the same things.
+
+If readers see the same colours again, they'll assume they mean the same thing and understand your next more plot more quickly!
+:::
+
+```{r}
+#| label: ex1-customcolours
+
+ggplot(df_long) +
+  aes(x = tmax, y = demand, colour = working) +
+  geom_point(size = 2) +
+  facet_wrap(vars(name)) +
+  scale_color_manual(
+    values = c(
+      Weekday = "#33aaff",
+      Weekend = "#dd0033")) +
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]")
+```
+
+### Adding a more minimal theme
+
+`{ggplot2}` has several "base themes" that are an easy place to start (you can customise them further, of course!).
+
+Some ones to try that be closer to what a journal expects are:
+
+* `theme_minimal()`
+* `theme_classic()`
+* `theme_bw()`
+
+```{r}
+#| label: ex1-basetheme
+
+ggplot(df_long) +
+  aes(x = tmax, y = demand, colour = working) +
+  geom_point(size = 2) +
+  facet_wrap(vars(name)) +
+  theme_minimal() +
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]")
+```
+
+
+### Changing pieces of text (that aren't linked to your data)
+
+Even once you have a base theme function, you can customise your plot further using the `theme` function. It has a [long list of options you can customise!](https://ggplot2.tidyverse.org/reference/theme.html)
+
+Most of the options you can customise need to be given an `element_*()` function that lets you pass in relevant options.
+
+For example, to make the X axis title bold and larger, you would add:
+
+:::{.callout-tip}
+The `rel()` function lets you change text size in fractional terms, relative to the plot's base size.
+
+This is handy, because if you add a `base_size` to your base theme function (eg. `theme_grey(base_size = 18)`), you can resize all the text in your plot proportionally, instead of having to update all the text sizes one at a time.
+:::
+
+```{r}
+#| label: ex1-largertext
+
+ggplot(df_long) +
+  aes(x = tmax, y = demand, colour = working) +
+  geom_point(size = 2) +
+  facet_wrap(vars(name)) +
+  theme(
+    axis.title.x = element_text(face = "bold", size = rel(1.2)),
+    axis.title.y = element_text(face = "bold", size = rel(1.2)),
+  ) +
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]")
+```
+
+### Moving the legend
+
+Another set of theme options concerns the legend.
+
+Two I use nearly all the time are `legend.position = "top"` and `legend.direction = "horizontal"`: if the legend is essential to understand the plot, you probably want people to see it quickly! (You could also add `legend.justification = "left", especially if you have a plot title.)
+
+(You can also define the legend location as fractional coordinates if you want it to be inset on the plot. Be careful about not covering up data if you do this!)
+
+(You can also change the title of a legend in a few ways. The easiest is to refer to the mapping it uses in the `labs()` function.)
+
+```{r}
+#| label: ex1-largertext
+
+ggplot(df_long) +
+  aes(x = tmax, y = demand, colour = working) +
+  geom_point(size = 2) +
+  facet_wrap(vars(name)) +
+  theme(
+    legend.position = "top",
+    legend.direction = "horizontal",
+    legend.justification = "left"
+  ) +
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]",
+    color = NULL)
+```
+
+### Adding a plot title (and subtitle, and caption)
+
+Journals often prefer you to tell a plot's story in the figure caption.
+
+But most people see the caption last. If you add a plot title and make it big enough, it'll probably be the first thing most people see!
+
+What should you use for a title? There are a few approaches. It's a good idea to make sure people can tell _what_ you're plotting, so you could use use a plot title or subtitle for that (especially if you've elected not to label an axis).
+
+"Editorialised" titles that explain the main message of the plot can also be great!
+
+A caption can be a great way to acknowledge your data sources, too.
+
+```{r}
+#| label: ex1-plottitle
+
+ggplot(df_long) +
+  aes(x = tmax, y = demand, colour = working) +
+  geom_point(size = 2) +
+  facet_wrap(vars(name)) +
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]",
+    title = "Power and temperature",
+    subtitle = "Peak daily electricity demand changes with temperature",
+    caption = "Data: NEAR project (BOM + CSIRO)"
+    )
+```
+
+### Adding text annotations
+
+Sometimes, labelling things directly is the easiest way to make something clearer—especially if you can't make assumptions about your readers' familiarity with the subject of the plot.
+
+There're a few ways to annotate a plot:
+
+- We could label every point using `geom_text()`—but with hundreds of points, this could be hard to read!
+- We could label a few interesting points by filtering our dataset and passing it as the `data` argument to `geom_text()`:
+  - `geom_text(data = interesting_points_only)`
+- We could add a couple of fixed labels to
+
+let's try the last option:
+
+```{r}
+#| label: ex1-annotate
+
+my_labels <- tribble(
+  ~ name,          ~ x,   ~ y, ~ text,
+  "Northcote",      25,   30,   "Residential areas ramp up\nin the heat and cold,\neven on weekends.",
+  "Port Melbourne", 20,   17.5, "Industrial areas see usage fall\na lot on weekends."
+)
+
+ggplot(df_long) +
+  aes(x = tmax, y = demand, colour = working) +
+  geom_point(size = 2) +
+  facet_wrap(vars(name)) +
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]") +
+  geom_text(
+    aes(x = x, y = y, label = text),
+    data = my_labels,
+    colour = "black",
+    size = 6)
+```
+
+Positioning labels can be cumbersome sometimes!
+
+You can use the `{ggannotate}` package to get a nice app for writing the code to add annotations to plots. It gives you code you can copy and paste:
+
+```{r}
+#| label: ggannotate-example
+
+ggannotate::ggannotate()
+```
+
+### Other ideas
+
+- Text annotations can be powerful, especially if your plot has more than one message or more than one focus point. Viewers are especially likely to read text annotations if they don't immediately and intuitively understand the visuals.
+
+  * For example:
+    - "In Northcote, a residential area, demand is similar on weekdays and weekends—but is ramps up on very hot or cold days."
+    - "In industrial Port Melbourne, demand is lower on weekends, as some workplaces shut down."
+
+- Instead of a legend, you could directly colour the text in your plot title or text annotation. This is space efficient and takes advantage of viewers seeing the title first!
+
+- This plot has several messages! There's one around weekends vs weekdays, another around temperature, and a third around different types of areas. Could we make this easier for viewers by introducing this complexity over time?
+
+
+# Exercise 2: maps
+
+For our second exercise, we'll look at temperatures across NSW across on a couple of very hot days: Jan 17 and 18, 2013.
+
+The file `data/spatial/era5-2013-01-17_18.nc` contains this temperature data in NetCDF format, courtesy of the [Copernicus Climate Data Service's ERA5 dataset](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=form).
+
+The file `data/spatial/sa4-nsw-act.gpkg` contains a set of boundaries from the [Australian Bureau of Statistics](https://maps.abs.gov.au/): [Statistical Area Level 4](https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files). I've cut the file down to NSW and ACT only.
+
+## Analysis
+
+We're going to need a few extra packages to work with spatial data like this:
+
+```{r}
+#| label: setup-spatial
+
+library(sf)
+library(stars)
+library(exactextractr)
+```
+
+Let's load up the temperatures first:
+
+```{r}
+#| label: analyse-temperatures-spatial
+
+# load the data in and convert from kelvin to deg calsius
+here("data", "spatial", "era5-2013-01-17_18.nc") |>
+  read_ncdf() |>
+  mutate(t2m = t2m - units::set_units(273.15, K)) ->
+temp_raster_all
+
+# we can see quickly what's in here:
+temp_raster_all
+
+# let's get a single time slice
+temp_raster_all |>
+  filter(time == ymd_hms("2013-01-17 05:00:00")) ->
+temp_raster_single
+```
+
+
+Here's as basic a plot as we can do with a raster map:
+
+```{r}
+#| label: plot-raster-base
+
+ggplot() +
+  geom_stars(data = temp_raster_single)
+```
+
+On its own, you can _just_ make out Australia.
+
+Let's add some vector data to give us some context:
+
+```{r}
+#| label: analyse-sa4s
+
+here("data", "spatial", "sa4-nsw-act.gpkg") |>
+  read_sf() ->
+nsw_sa4s
+
+nsw_sa4s
+```
+
+You can see this "shapefile" looks like a data frame, with rows that represent features. In this case, each feature is an individual area with metadata attached, but features could be points (like weather stations), or lines (like rivers or roads).
+
+Let's add these areas to our map:
+
+```{r}
+#| label: map-raster-polys
+
+ggplot() +
+  geom_stars(data = temp_raster_single) +
+  geom_sf(data = nsw_sa4s, fill = NA, colour = "black")
+```
+
+If we're focused on NSW, we should probably zoom in on it:
+
+```{r}
+#| label: map-raster-polys-zoom
+
+ggplot() +
+  geom_stars(data = temp_raster_single) +
+  geom_sf(data = nsw_sa4s, fill = NA, colour = "black") +
+  coord_sf(xlim = c(140, 155), ylim = c(-40, -27))
+```
+
+## Plotting a basic map of a raster
+
+Try modifying it! For example, we could add in some axis labels (and take some away!)
+
+```{r}
+#| label: modified-plot-raster-base
+
+ggplot() +
+  geom_stars(data = temp_raster_single) +
+  geom_sf(data = nsw_sa4s, fill = NA, colour = "black") +
+  coord_sf(xlim = c(140, 155), ylim = c(-40, -27)) +
+  labs(
+    x = NULL, y = NULL,
+    title = "Temperatures at 4 PM on Jan 17, 2013",
+    fill = "Temperature (°C)")
+```
+
+As before, we can save it to a PNG file (or a PDF, or something else):
+
+```{r}
+#| label: raster-ggsave-example
+
+my_map <- ggplot() +
+  geom_stars(data = temp_raster_single) +
+  geom_sf(data = nsw_sa4s, fill = NA, colour = "black") +
+  coord_sf(xlim = c(140, 155), ylim = c(-40, -27)) +
+  labs(
+    x = NULL, y = NULL,
+    title = "Temperatures at 4 PM on Jan 17, 2013",
+    fill = "Temperature (°C)")
+
+ggsave(my_map, here("plots", "map-example.png"))
+```
+
+Not sure how to implement some of your ideas? We'll discuss together afterward, but in the mean time, scroll down for some ideas...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(keep scrolling!)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Exercise 2 ideas
+
+### Move the legend
+
+As before, we can move the colour bar by supplying `theme` options, as well as a pre-defined theme:
+
+```{r}
+#| label: ex2-legend-position
+
+ggplot() +
+  geom_stars(data = temp_raster_single) +
+  geom_sf(data = nsw_sa4s, fill = NA, colour = "black") +
+  coord_sf(xlim = c(140, 155), ylim = c(-40, -27)) +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    legend.direction = "horizontal"
+  )
+```
+
+### Masking the data
+
+All of this data around NSW isn't really of interest to us. Instead of zooming the plot in manually, we could use the polygons as a _mask_, where everything in the raster outside them disappears.
+
+```{r}
+#| label: mask-raster
+
+# before we can crop with the polygons, we need them in the
+# same projection
+nsw_sa4s |>
+  sf::st_transform(st_crs(4326)) ->
+nsw_sa4s_reprojected
+
+# this'll take a few seconds!
+temp_nsw <- temp_raster_single[nsw_sa4s_reprojected]
+```
+
+Now we can plot our new raster:
+
+```{r}
+#| label: ex2-legend-position
+
+ggplot() +
+  geom_stars(data = temp_nsw) +
+  geom_sf(data = nsw_sa4s, fill = NA, colour = "black")
+```
+
+
+### A better colour scale, and hiding missing areas
+
+That grey colour where the data is missing is pretty ugly, but a colour scale can fix that:
+
+As before, you can use `scale_fill_distiller` to choose a colour palette from <colorbrewer2.org>.
+
+Colour scale functions take some useful arguments, like `direction = 1` to reverse them (so that the reed represents hot temperatures), and `na.value`, so that we can set the colour of the missing areas.
+
+```{r}
+#| label: ex2-colour-brewer
+
+ggplot() +
+  geom_stars(data = temp_nsw) +
+  geom_sf(data = nsw_sa4s, fill = NA, colour = "black") +
+  coord_sf(xlim = c(140, 155), ylim = c(-40, -27)) +
+  scale_fill_distiller(palette = "YlOrRd", direction = 1,
+    na.value = "transparent") +
+  labs(
+    x = NULL, y = NULL,
+    title = "Temperatures at 4 PM on Jan 17, 2013",
+    fill = "Temperature (°C)")
+```
+
+One thing about continuous colour scales on maps is it can sometimes be hard to distinguish many different shades of colour on a map.
+
+You could choose to use a "binned" colour scale instead, so the colour steps between a few different shades instead.
+
+You can use `scale_fill_fermenter` instead to make the colour scale binned:
+
+```{r}
+#| label: ex2-colour-fermenter
+
+ggplot() +
+  geom_stars(data = temp_nsw) +
+  geom_sf(data = nsw_sa4s, fill = NA, colour = "black") +
+  coord_sf(xlim = c(140, 155), ylim = c(-40, -27)) +
+  scale_fill_fermenter(palette = "YlOrRd", n.breaks = 7, direction = 1,
+    na.value = "transparent") +
+  labs(
+    x = NULL, y = NULL,
+    title = "Temperatures at 4 PM on Jan 17, 2013",
+    fill = "Temperature (°C)")
+```
+
+## Making a choropleth
+
+We've cropped our raster data to the area of NSW, but temperatures vary quite a bit across the state. In order to compare different areas numerically, we might want to show a statistic for each area, like the average temperature for each one.
+
+Let's calculate an average for each area and plot that. The `{sf}` package can calculate these statistics across areas (called _zonal statistics_), but the `{exactextractr}` package does the job better (and faster!).
+
+```{r}
+#| label: polygon-averages
+
+# we need to use a different format for {exactextractr}
+temp_terra <- terra::rast(temp_raster_single)
+  
+# we also need to remove "empty" areas, which sometimes come with datasets
+nsw_sa4s_reprojected |>
+  filter(!st_is_empty(nsw_sa4s_reprojected)) ->
+nsw_sa4s_nonempty
+
+# now, we can use {exactextractr} to calculate the zonal mean of each sa4
+nsw_sa4s_nonempty |>
+  mutate(avg_temp = exact_extract(temp_terra, nsw_sa4s_nonempty, "mean")) |>
+  select(SA4_NAME21, avg_temp) ->
+nsw_temps
+
+
+ggplot() +
+  aes(fill = avg_temp) +
+  geom_sf(data = nsw_temps, colour = "black") +
+  scale_fill_fermenter(palette = "YlOrRd", n.breaks = 7, direction = 1,
+    na.value = "transparent") +
+  labs(
+    x = NULL, y = NULL,
+    title = "Zonal temperatures at 4 PM on Jan 17, 2013",
+    fill = "Temperature (°C)")
+```
+

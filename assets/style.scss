@@ -9,9 +9,18 @@ $presentation-heading-font: "DM Serif Display", serif, !default;
 $presentation-h1-font-size: 3em;
 $presentation-h2-font-size: 1.9em;
 
+// name, color1, color2, text-color
+$section-styles:
+  "aqua"   "rgb(0, 170, 221)"  "rgb(102, 221, 0)"  "#16365a",
+  "sunset" "rgb(243, 115, 53)" "rgb(253, 200, 48)" "#4b1625";
+
 /*-- scss:rules --*/
 
 .reveal {
+  
+  ul {
+    list-style: inherit;
+  }
 
   .slide.hcenter {
     text-align: center;
@@ -21,7 +30,7 @@ $presentation-h2-font-size: 1.9em;
     color: #464f59;
   }
 
-  // cover slide
+  /* cover slide */
 
   .slides section:first-child {
     h1 {
@@ -57,140 +66,135 @@ $presentation-h2-font-size: 1.9em;
     background-color: #f7fafc;
   }
 
-  // utility
+  /* utility */
 
   .small {
     font-size: 70%;
-    color: #708090;
+    opacity: 0.7;
   }
 
+  // image captions
   .slide img.r-stretch + p.caption {
     text-transform: uppercase;
-    color: #97aec4;
+    opacity: 0.7;
   }
 
-  /* use :has to target entire sections, like section.stack:has(#section-1) */
-  section.stack:has(#section-cloud) {
-    p, li {
-      color: #16365a;
+  /* section styles */
+
+  @each $name, $color1, $color2, $body-color in $section-styles {
+  
+    section.stack:has(.section-#{$name}) {
+
+      .section-#{$name} h1 {
+        color: white;
+      }
+
+      p, li {
+        color: #{$body-color};
+      }
+
+      strong {
+        filter: brightness(90%) contrast(150%);
+      }
+
+      h1, h2, h3 {
+        background: linear-gradient(45deg, #{$color1}, #{$color2});
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
     }
 
-    .small {
-      color: #16365a;
-      opacity: 0.7;
-    }
-
-    strong {
-      filter: brightness(90%) contrast(150%);
-    }
-
-    h1, h2, h3 {
-      background: linear-gradient(45deg, #16365a, #268b98);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .slide img.r-stretch + p.caption {
-      text-transform: uppercase;
-      color: #16365a;
-      opacity: 0.4;
-    }
   }
+  
 
-  section.stack:has(#section-outofcloud) {
-    p, li {
-      color: #4b1625;
-    }
+  // section.stack:has(#section-aqua) {
 
-    .small {
-      color: #4b1625;
-      opacity: 0.7;
-    }
+  //   #section-cloud h1 {
+  //     color: white;
+  //   }
+    
+  //   p, li {
+  //     color: #16365a;
+  //   }
 
-    strong {
-      filter: brightness(90%) contrast(150%);
-    }
+  //   .small {
+  //     color: #16365a;
+  //     opacity: 0.7;
+  //   }
 
-    h1, h2, h3 {
-      background: linear-gradient(45deg, #4b1625, #b8370f);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+  //   strong {
+  //     filter: brightness(90%) contrast(150%);
+  //   }
 
-    .slide img.r-stretch + p.caption {
-      text-transform: uppercase;
-      color: #4b1625;
-      opacity: 0.4;
-    }
-  }
+  //   h1, h2, h3 {
+  //     background: linear-gradient(45deg, #16365a, #268b98);
+  //     -webkit-background-clip: text;
+  //     background-clip: text;
+  //     color: transparent;
+  //   }
 
-  section.stack:has(#section-summary) {
-    p, li {
-      color: #164b3a;
-    }
+  //   .slide img.r-stretch + p.caption {
+  //     text-transform: uppercase;
+  //     opacity: 0.4;
+  //   }
+  // }
 
-    .small {
-      color: #164b3a;
-      opacity: 0.7;
-    }
+  // section.stack:has(#section-outofcloud) {
+  //   p, li {
+  //     color: #4b1625;
+  //   }
 
-    strong {
-      filter: brightness(90%) contrast(150%);
-    }
+  //   .small {
+  //     color: #4b1625;
+  //     opacity: 0.7;
+  //   }
 
-    h1, h2, h3 {
-      background: linear-gradient(45deg, #1073a0, rgb(12, 172, 97));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+  //   strong {
+  //     filter: brightness(90%) contrast(150%);
+  //   }
 
-    .slide img.r-stretch + p.caption {
-      text-transform: uppercase;
-      color: #164b3a;
-      opacity: 0.4;
-    }
-  }
+  //   h1, h2, h3 {
+  //     background: linear-gradient(45deg, #4b1625, #b8370f);
+  //     -webkit-background-clip: text;
+  //     background-clip: text;
+  //     color: transparent;
+  //   }
 
+  //   .slide img.r-stretch + p.caption {
+  //     text-transform: uppercase;
+  //     color: #4b1625;
+  //     opacity: 0.4;
+  //   }
+  // }
 
-}
+  // section.stack:has(#section-summary) {
+  //   p, li {
+  //     color: #164b3a;
+  //   }
 
-#qwebr-status-message-area {
-  position: absolute;
-  top: 0.5em;
-  right: 0.5em;
-  font-family: "Inter";
-  font-size: 75%;
-  opacity: 0.25;
+  //   .small {
+  //     color: #164b3a;
+  //     opacity: 0.7;
+  //   }
 
-  display: flex;
-  flex-flow: row wrap;
-  gap: 0.5em;
+  //   strong {
+  //     filter: brightness(90%) contrast(150%);
+  //   }
 
-  #qwebr-status-message-title,
-  #qwebr-status-message-body {
-    text-transform: uppercase;
-    color: black;
-  }
-}
+  //   h1, h2, h3 {
+  //     background: linear-gradient(45deg, #1073a0, rgb(12, 172, 97));
+  //     -webkit-background-clip: text;
+  //     background-clip: text;
+  //     color: transparent;
+  //   }
 
-#qpyodide-status-message-area {
-  position: absolute;
-  top: 2em;
-  right: 0.5em;
-  font-family: "Inter";
-  font-size: 75%;
-  opacity: 0.25;
+  //   .slide img.r-stretch + p.caption {
+  //     text-transform: uppercase;
+  //     color: #164b3a;
+  //     opacity: 0.4;
+  //   }
+  // }
 
-  display: flex;
-  flex-flow: row wrap;
-  gap: 0.5em;
-
-  #qpyodide-status-message-title,
-  #qpyodide-status-message-body {
-    text-transform: uppercase;
-    color: black;
-  }
 }

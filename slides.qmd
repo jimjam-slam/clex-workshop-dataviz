@@ -9,14 +9,16 @@ format:
       - qr-code-codespace.svg
 ---
 
-## {.center}
+# {.center}
 
 <h1>Better plots<h1>
 
-<h2>for publication and people</h2>
+<h2>for publications and people</h2>
 
 ::: {style="margin-top:50px"}
 **JAMES GOLDIE**
+
+March 8 2024
 :::
 
 ## Before we start {.center}
@@ -43,30 +45,14 @@ format:
 ::::
 
 
-# Hi! {background="linear-gradient(45deg, #00aadd, #66dd00)"}
+# Hi! {.section-aqua background-color="lightgrey"}
 
-## 
+## {.hcenter .center}
 
-::::: {.columns style="text-align:center;margin-top:50px;"}
-
-:::: {.column width="50%" style="margin-top:50px"}
-::: {.r-stack}
-![](assets/images/graduation.gif){.fragment .fade-in-then-semi-out fragment-index=1 style="width:70%;transform:rotate(-5deg);" fig-alt="A picture of me and my PhD supervisor, Lisa Alexander, at my graduation."}
-
-![](assets/images/mcccrh-zoom.png){.fragment .fade-in-then-semi-out fragment-index=2 style="transform:rotate(5deg);" fig-alt="A picture of me and MCCCRH staff members on Zoom."}
-
-![](assets/images/mcccrh.gif){.fragment .fade-in-then-semi-out fragment-index=3 style="transform:rotate(-1deg);" fig-alt="A picture of me and MCCCRH staff members on a work trip."}
-
-![](assets/images/mcccrh-projections.jpg){.fragment .fade-in-then-semi-out fragment-index=4 style="transform:rotate(1.5deg);" fig-alt="A picture of Graham Creed from the ABC presenting climate projections."}
-
-![](assets/images/mcccrh-7news.gif){.fragment .fade-in fragment-index=5 style="transform:rotate(-3.5deg);" fig-alt="A picture of Jane Bunn presenting statistics on shrinking winters."}
-:::
-::::
-
-:::: {.column width="50%"  style="margin-top:25px"}
 ::: {.fragment fragment-index=1}
 I used to be a climate + health researcher 
 :::
+
 ::: {.fragment fragment-index=2}
 •
 
@@ -77,18 +63,16 @@ Worked with **[CLEX](https://climateextremes.org.au)** and **[MCCCRH](https://mo
 
 Now I'm a data journalist with
 
-[![](assets/images/360logo.svg){style="width:50%;"}](https://360info.org)
+[![](assets/images/360logo.svg){style="width:25%;"}](https://360info.org)
 :::
-::::
 
-:::::
 
-## Poll 🙋🏻
+## Poll {{< bi person-raised-hand >}}
 
 - What are you hoping to learn today?
 - How comfortable do you feel with R and ggplot2?
 
-# Improving your plots {background="linear-gradient(45deg, #f37335, #fdc830)"}
+# Improving your plots {.section-sunset background-color="lightgrey"}
 
 ## Who is it for? {.center style="text-align:center"}
 

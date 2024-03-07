@@ -101,7 +101,7 @@ When all of the elements on your plot look the same, it's really hard for people
 ## {.center .hcenter}
 
 :::{style="font-size: 75%"}
-[When all of the elements on your plot]{style="color: #bbbbbb"} **look the same**, [it's]{style="color: #bbbbbb"} **really hard for people** [to decide what to focus on.]{style="color: #bbbbbb"}
+[When all of the elements on your plot]{style="color: #bbbbbb"} **look the same**, [it's]{style="color: #bbbbbb"} **really hard** [ for people to decide what to focus on.]{style="color: #bbbbbb"}
 <br><br>
 [Without that focus, it's difficult for your plot to lead to a conclusion.]{style="color: #bbbbbb"}
 <br><br>
@@ -225,11 +225,11 @@ It's definitely possible to take this principle **too far**—sometimes redundan
 <br><br>
 But it's always worth asking the **purpose plot elements serve**, and whether your plot has a focus or is **too busy**
 
-## When to draw things, and when not to {.center .hcenter}
+## One story, or multiple? {.center .hcenter}
 
 If your plot has too many things, or is **trying to tell multiple stories at once**, think about how you can help readers **build up** to that complexity:
 
-:::::{style="margin-top: 100px"}
+:::::{style="margin-block: 30px"}
 ::::{.columns style="font-size: 75%;"}
 :::{.column width="30%"}
 Use animation to introduce elements one at a time
@@ -243,6 +243,43 @@ De-emphasise less important info or emphasise more important info
 :::
 ::::
 :::::
+
+More complex graphics can be useful when exploring... but in those cases **you** are the audience, and **you know your data best!**
+
+## Building up complexity
+
+```{r}
+#| label: pre-data
+#| echo: false
+#| output: false
+set.seed(0)
+deemph_data = tibble(
+  names = c("Sasha Pearson", "Gunner Galindo", "Corinne Castillo",
+    "Kai McKenzie", "Briar Pena", "Marcus Cardenas", "Raven Alfaro",
+    "Xzavier Hoffman", "Aspen Wade", "Jake Shah", "Angelica Olson",
+    "Malachi Villalobos", "Zoya Bridges", "Mohammed Wilson", "Luna Rowland"),
+  score = rnorm(15, 5, 2),
+  practice = seq(4, 11, 0.5) + rnorm(15, 2, 1),
+  cat = "deemph")
+emph_data = tibble(
+  names = "Outstanding Person",
+  score = 14.5,
+  practice = 1.5)
+all_data = bind_rows(deemph_data, emph_data)
+```
+
+:::: {.columns}
+::: {.column}
+
+```{r}
+#| label: too-many-cats
+
+```
+
+:::
+::: {.column}
+:::
+::::
 
 # [Exercise 1]{.small}<br>Plotting for publication {.section-indigo background="linear-gradient(45deg, #4776e6, #8e54e9)"}
 

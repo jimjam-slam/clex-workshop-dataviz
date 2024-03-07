@@ -11,7 +11,7 @@ format:
 
 # {.center}
 
-<h1>Better plots<h1>
+<h1>Perfect plots<h1>
 
 <h2>for publications and people</h2>
 
@@ -34,7 +34,7 @@ March 8 2024
 :::{style="font-size: 70%"}
 1. Get an account for free at **[github.com](https://github.com)**
 
-2. Go to **<https://codespaces.new/jimjam-slam/clex-workshop-dataviz?quickstart=1>**
+2. Go to **<https://codespaces.new/jimjam-slam/clex-workshop-dataviz?quickstart=1>**<br>[or use the QR code]{.small}
 
   - If you close the browser window, use the link to resume it (or just make another one if you're happy to start again).
 
@@ -45,7 +45,7 @@ March 8 2024
 ::::
 
 
-# Hi! {.section-aqua background-color="lightgrey"}
+# Hi! {.section-aqua background="linear-gradient(45deg, #00aadd, #66dd00)"}
 
 ## {.hcenter .center}
 
@@ -72,7 +72,7 @@ Now I'm a data journalist with
 - What are you hoping to learn today?
 - How comfortable do you feel with R and ggplot2?
 
-# Improving your plots {.section-sunset background-color="lightgrey"}
+# Improving your plots {.section-sunset background="linear-gradient(45deg, #c21500, #ffc500)"}
 
 ## Who is it for? {.center style="text-align:center"}
 
@@ -234,24 +234,24 @@ De-emphasise less important info or emphasise more important info
 ::::
 :::::
 
-# [Exercise 1:<br>Time series data]{style="color:white"} { background="linear-gradient(45deg, #4a00e0, #ff0099)"}
+# [Exercise 1]{.small}<br>Plotting for publication {.section-indigo background="linear-gradient(45deg, #4776e6, #8e54e9)"}
 
 ## Exercise 1 {.center}
 
-Open the `exercises/exercises.qmd` file
+Open `exercises.qmd`
 
 <br>
-This notebook compares **peak electricity demand** each day to **maximum temperature** at **3 sites**
+This notebook compares peak electricity demand each day to maximum temperature at 3 sites
 <br><br>
 We'll split into groups and try to make a better plot **for publication**
 <br><br>
-Start by **discussing improvements** you'd make. If you know R, **try making these changes!** If not, I have some suggestions you can copy further down 😉
+Start by discussing improvements you'd make. If you know R, try making these changes! If not, I have some suggestions you can copy further down 😉
 
-# [Exercise 2:<br>maps]{style="color:white"} { background="linear-gradient(45deg, #ed213a, #93291e)"}
+# [Exercise 2]{.small}<br>Plotting for the public{.section-moss background="linear-gradient(45deg, #134e5e, #71b280)"}
 
 ## Exercise 2 {.center}
 
-Continue down `exercises/exercises.qmd` file to Exercise 2
+Continue down `exercises.qmd` file to Exercise 2
 
 <br>
 This notebook shows **temperatures across Australia** over the course of two hot days.
@@ -266,21 +266,21 @@ Start by **discussing improvements** you'd make. If you know R, **try making the
 
 <br>
 
-Thanks **Mat Lipson** and the [**NEAR program**](https://near.csiro.au/) (BOM + CSIRO) for our time series data, and [**Copernicus**](https://cds.climate.copernicus.eu) and the [**ABS**](https://abs.gov.au) for the map data!
+Thanks **Mat Lipson** and the [**NEAR program**](https://near.csiro.au/) (BOM + CSIRO) for our time series data!
 
 ::::{.columns}
-:::{.column width="40%"}
+:::{.column width="45%"}
 
 {{< bi mastodon >}} [@jimjamslam@aus.social](https://aus.social/@jimjamslam)
 
 {{< bi linkedin >}} [linkedin.com/in/jamesgoldie](https://www.linkedin.com/in/jamesgoldie)
 
-{{< bi github >}} [**github.com/360-info**](https://github.com/jimjam-slam)
+{{< bi github >}} [github.com/360-info](https://github.com/jimjam-slam)
 
 :::
-:::{.column width="60%"}
+:::{.column width="55%"}
 
-:::{.callout-tip}
+:::{.callout-tip appearance="simple"}
 (You can keep using today's Codespace at the link in the footer!)
 :::
 

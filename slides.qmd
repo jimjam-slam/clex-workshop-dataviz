@@ -67,14 +67,14 @@ Now I'm a data journalist with
 :::
 
 
-## Poll {{< bi person-raised-hand >}}
+## Poll {{< bi person-raised-hand >}} {.center}
 
 - What are you hoping to learn today?
 - How comfortable do you feel with R and ggplot2?
 
-# Improving your plots {.section-sunset background="linear-gradient(45deg, #c21500, #ffc500)"}
+# Plotting principles {.section-sunset background="linear-gradient(45deg, #c21500, #ffc500)"}
 
-## Who is it for? {.center style="text-align:center"}
+## Who is your graphic for? {.center .hcenter}
 
 A lot of data vis advice is just communication advice!
 <br><br>
@@ -86,7 +86,7 @@ A lot of data vis advice is just communication advice!
 
 What are they likely to **know already?**
 
-## What will your readers see first? {.center style="text-align:center"}
+## What will your readers see first? {.center .hcenter}
 
 Information designers call this **visual hierarchy**.
 <br><br>
@@ -94,11 +94,11 @@ What did you see first on this slide? What did you see second?
 
 Why?
 
-## {.center style="text-align:center"}
+## {.center .hcenter}
 
 When all of the elements on your plot look the same, it's really hard for people to decide what to focus on. Without that focus, it's difficult for your plot to lead to a conclusion. Instead, you want to vary your plot elements, drawing attention to the most important things first. There are lots of ways to do this: bolding text, making it bigger, using colours, and taking advantage of natural reading direction can all help to establish visual hierarchy.
 
-## {.center style="text-align:center"}
+## {.center .hcenter}
 
 :::{style="font-size: 75%"}
 [When all of the elements on your plot]{style="color: #bbbbbb"} **look the same**, [it's]{style="color: #bbbbbb"} **really hard for people** [to decide what to focus on.]{style="color: #bbbbbb"}
@@ -110,15 +110,15 @@ When all of the elements on your plot look the same, it's really hard for people
 [There are lots of ways to do this:]{style="color: #bbbbbb"}
 :::
 
-## Text size
+## Visual hierarchy: text size
 <br><br>
 [People read large things first...]{style="font-size: 125%"}
 
 [... and smaller things later.]{style="font-size: 75%"}
-<br><br><br><br>
+<br><br>
 [(There's a reason we call it "fine print".)]{style="font-size: 50%"}
 
-## Font weight
+## Visual hierarchy: font weight
 
 (more or less bold)
 
@@ -126,8 +126,16 @@ When all of the elements on your plot look the same, it's really hard for people
 :::{.column width="50%"}
 
 [What did you read first here?]{style="font-size: 75%"}
+<br><br><br><br>
+
+:::{.callout-tip appearance="simple"}
+Be careful using the more extreme weights (300 and 900).
+
+Text still needs to be readable!
 :::
-:::{.column width="50%"}
+
+:::
+:::{.column width="50%" style="font-family: system-ui"}
 
 [Text weight: 300]{style="font-weight: 300"}
 
@@ -145,7 +153,7 @@ When all of the elements on your plot look the same, it's really hard for people
 :::
 ::::
 
-## Colour
+## Visual hierarchy: colour
 
 <br>
 
@@ -172,7 +180,7 @@ When all of the elements on your plot look the same, it's really hard for people
 :::
 ::::
 
-## Reading direction
+##Visual hierarchy: reading direction
 
 Left-to-right?
 
@@ -182,40 +190,42 @@ Top-to-bottom?
 
 This might depend on your audience!
 
-## Combining these elements
+## Building up visual hierarchy
 <br><br>
 
-[Visual hierarchy can help]{style="font-size:125%; color: #dd0033; font-weight: bold;"}
+[Visual hierarchy guides the reader]{style="font-size:125%; color: #dd0033; font-weight: bold;"}
 
 And we have many ways to build it
 
 [James made this slide, but that's less important]{style="font-size:75%; color: #bbbbbb"}
 
-## Combining these elements
+## Building up visual hierarchy
 
-:::{.callout-tip}
-You can also use these elements against each other to fine-tune your visual hierarchy, but you need to make sure you don't make things too confusing!
-:::
+### 
+
+You can also use these elements against each other to fine-tune your visual hierarchy...
+<br><br>
+...but you need to make sure you don't make things too confusing!
 
 <br>
 
-[Brief and unimportant]{style="font-size:75%; text-transform: uppercase;"}
+[Somewhat less important]{style="font-size:75%; text-transform: uppercase;"}
 
 [Important thing right here!]{style="font-size: 125%; font-weight: bold;"}
 
-## When to draw things, and when not to {.center style="text-align:center"}
+## When to draw things, and when not to {.center .hcenter}
 
 Some data vis practitioners refer to a principle called the **data-to-ink ratio**
 <br><br>
 The idea is to minimise the amount of "ink" for the amount of data you're trying to convey.
 
-## When to draw things, and when not to {.center style="text-align:center"}
+## When to draw things, and when not to {.center .hcenter}
 
 It's definitely possible to take this principle **too far**—sometimes redundancy can be helpful for people!
 <br><br>
 But it's always worth asking the **purpose plot elements serve**, and whether your plot has a focus or is **too busy**
 
-## When to draw things, and when not to {.center style="text-align:center"}
+## When to draw things, and when not to {.center .hcenter}
 
 If your plot has too many things, or is **trying to tell multiple stories at once**, think about how you can help readers **build up** to that complexity:
 

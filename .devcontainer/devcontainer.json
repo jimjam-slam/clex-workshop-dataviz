@@ -27,6 +27,7 @@
 		},
 		/* add additional r packages here */
 		"ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
+			"additionalRepositories": "nx10 = 'https://nx10.r-universe.dev'",
 			"packages": "github::rstudio/renv,tidyverse,httpgd,here,janitor,ggtext,github::mattcowgill/ggannotate"
 		}
 	},
@@ -46,8 +47,6 @@
 				"reditorsupport.r",
 				"quarto.quarto",
 				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"ms-toolsai.jupyter",
 				"mechatroner.rainbow-csv",
 				"seunlanlege.action-buttons"
 			]

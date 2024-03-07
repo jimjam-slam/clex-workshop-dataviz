@@ -11,8 +11,11 @@ $presentation-h2-font-size: 1.9em;
 
 // name, color1, color2, text-color
 $section-styles:
-  "aqua"   "rgb(0, 170, 221)"  "rgb(102, 221, 0)"  "#16365a",
-  "sunset" "rgb(243, 115, 53)" "rgb(253, 200, 48)" "#4b1625";
+  "aqua"   "#00aadd" "#66dd00" "#16365a",
+  "sunset" "#c21500" "#ffc500" "#4b1625",
+  "carbon" "#222222" "#444444" "#222222",
+  "moss"   "#134E5E" "#71B280" "#0b2c36",
+  "indigo" "#4776E6" "#8E54E9" "#152447";
 
 /*-- scss:rules --*/
 
@@ -27,6 +30,10 @@ $section-styles:
   }
 
   p, li {
+    color: #464f59;
+  }
+
+  .footer a {
     color: #464f59;
   }
 
@@ -79,7 +86,7 @@ $section-styles:
     opacity: 0.7;
   }
 
-  /* section styles */
+  /* ennumerated section styles */
 
   @each $name, $color1, $color2, $body-color in $section-styles {
   
@@ -107,94 +114,5 @@ $section-styles:
     }
 
   }
-  
-
-  // section.stack:has(#section-aqua) {
-
-  //   #section-cloud h1 {
-  //     color: white;
-  //   }
-    
-  //   p, li {
-  //     color: #16365a;
-  //   }
-
-  //   .small {
-  //     color: #16365a;
-  //     opacity: 0.7;
-  //   }
-
-  //   strong {
-  //     filter: brightness(90%) contrast(150%);
-  //   }
-
-  //   h1, h2, h3 {
-  //     background: linear-gradient(45deg, #16365a, #268b98);
-  //     -webkit-background-clip: text;
-  //     background-clip: text;
-  //     color: transparent;
-  //   }
-
-  //   .slide img.r-stretch + p.caption {
-  //     text-transform: uppercase;
-  //     opacity: 0.4;
-  //   }
-  // }
-
-  // section.stack:has(#section-outofcloud) {
-  //   p, li {
-  //     color: #4b1625;
-  //   }
-
-  //   .small {
-  //     color: #4b1625;
-  //     opacity: 0.7;
-  //   }
-
-  //   strong {
-  //     filter: brightness(90%) contrast(150%);
-  //   }
-
-  //   h1, h2, h3 {
-  //     background: linear-gradient(45deg, #4b1625, #b8370f);
-  //     -webkit-background-clip: text;
-  //     background-clip: text;
-  //     color: transparent;
-  //   }
-
-  //   .slide img.r-stretch + p.caption {
-  //     text-transform: uppercase;
-  //     color: #4b1625;
-  //     opacity: 0.4;
-  //   }
-  // }
-
-  // section.stack:has(#section-summary) {
-  //   p, li {
-  //     color: #164b3a;
-  //   }
-
-  //   .small {
-  //     color: #164b3a;
-  //     opacity: 0.7;
-  //   }
-
-  //   strong {
-  //     filter: brightness(90%) contrast(150%);
-  //   }
-
-  //   h1, h2, h3 {
-  //     background: linear-gradient(45deg, #1073a0, rgb(12, 172, 97));
-  //     -webkit-background-clip: text;
-  //     background-clip: text;
-  //     color: transparent;
-  //   }
-
-  //   .slide img.r-stretch + p.caption {
-  //     text-transform: uppercase;
-  //     color: #164b3a;
-  //     opacity: 0.4;
-  //   }
-  // }
 
 }

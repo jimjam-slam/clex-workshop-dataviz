@@ -394,26 +394,26 @@ Matt Cowgill @ SEEK made `{ggannotate}`. It **helps you place annotations!**
 
 ::::
 
-# Thank you for having me!
+# [Thank you for having me!]{style="color: white;"} {.section-carbon background="linear-gradient(45deg, #222222, #444444)"}
 
 <br>
 
-Thanks **Mat Lipson** and the [**NEAR program**](https://near.csiro.au/) (BOM + CSIRO) for our time series data!
+[Thanks **Mat Lipson** and the [**NEAR program**](https://near.csiro.au/) (BOM + CSIRO) for our time series data!]{style="color: white;"}
 
 ::::{.columns}
 :::{.column width="45%"}
 
-{{< bi mastodon >}} [@jimjamslam@aus.social](https://aus.social/@jimjamslam)
+[{{< bi mastodon >}} [@jimjamslam@aus.social](https://aus.social/@jimjamslam)]{style="color: white;"}
 
-{{< bi linkedin >}} [linkedin.com/in/jamesgoldie](https://www.linkedin.com/in/jamesgoldie)
+[{{< bi linkedin >}} [linkedin.com/in/jamesgoldie](https://www.linkedin.com/in/jamesgoldie)]{style="color: white;"}
 
-{{< bi github >}} [github.com/360-info](https://github.com/jimjam-slam)
+[{{< bi github >}} [github.com/360-info](https://github.com/jimjam-slam)]{style="color: white;"}
 
 :::
 :::{.column width="55%"}
 
 :::{.callout-tip appearance="simple"}
-(You can keep using today's Codespace at the link in the footer!)
+[You can keep using today's Codespace at the link in the footer!]{style="color: white;"}
 :::
 
 :::

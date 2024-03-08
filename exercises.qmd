@@ -47,7 +47,8 @@ ggplot(df_long) +
   facet_wrap(vars(name)) +
   labs(
     x = "2m air temperature [°C]",
-    y = "Electricity demand [MW]")
+    y = "Electricity demand [MW]",
+    title = "Electricity and temperature")
 ```
 
 How could we change it?
@@ -75,8 +76,13 @@ you'll see better looking fonts!
 ```{r}
 #| label: font-ggsave-example
 
-my_plot <- ggplot(mtcars) + aes(mpg, hp) + geom_point() + labs(title = "Title")
-ggsave(here("test.png"), my_plot)
+my_plot <-
+  ggplot(mtcars) +
+  aes(mpg, hp) +
+  geom_point() +
+  labs(title = "Title")
+
+ggsave(here("test.png"), my_plot, bg = "white")
 ```
 
 :::
@@ -184,6 +190,7 @@ For example, to make the X axis title bold and larger, you would add:
 > 
 > This is handy, because if you add a `base_size` to your base theme function (eg. `theme_grey(base_size = 18)`), you can resize all the text in your plot proportionally, instead of having to update all the text sizes one at a time.
 
+
 ```{r}
 #| label: ex1-largertext
 
@@ -194,11 +201,16 @@ ggplot(df_long) +
   theme(
     axis.title.x = element_text(face = "bold", size = rel(1.2)),
     axis.title.y = element_text(face = "bold", size = rel(1.2)),
+    plot.title = element_text(
+      family = "DM Serif Display",
+      size = rel(2.5))
   ) +
   labs(
     x = "2m air temperature [°C]",
     y = "Electricity demand [MW]")
 ```
+
+(Remember, you'll need to save this plot using `ggsave` to see the fonts!)
 
 ### Moving the legend
 

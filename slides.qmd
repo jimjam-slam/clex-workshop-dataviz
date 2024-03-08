@@ -86,6 +86,154 @@ A lot of data vis advice is just communication advice!
 
 What are they likely to **know already?**
 
+## When to draw things, and when not to {.center .hcenter}
+
+Some data vis practitioners refer to a principle called the **data-to-ink ratio**
+<br><br>
+The idea is to minimise the amount of "ink" for the amount of data you're trying to convey.
+
+## When to draw things, and when not to {.center .hcenter}
+
+It's definitely possible to take this principle **too far**—sometimes redundancy can be helpful for people!
+<br><br>
+But it's always worth asking the **purpose plot elements serve**, and whether your plot has a focus or is **too busy**
+
+## One story, or multiple? {.center .hcenter}
+
+If your plot has too many things, or is **trying to tell multiple stories at once**, think about how you can help readers **build up** to that complexity:
+
+:::::{style="margin-block: 30px"}
+::::{.columns style="font-size: 75%;"}
+:::{.column width="30%"}
+Use animation to introduce elements one at a time
+:::
+:::{.column width="30%"}
+Make more than one plot
+:::
+
+:::{.column width="30%"}
+De-emphasise less important info or emphasise more important info
+:::
+::::
+:::::
+
+More complex graphics can be useful when exploring... but in those cases **you** are the audience, and **you know your data best!**
+
+# [Exercise 1]{.small}<br>Plotting for publication {.section-indigo background="linear-gradient(45deg, #4776e6, #8e54e9)"}
+
+## Exercise 1 {.center .hcenter}
+
+Open `exercises.qmd`.  
+It has daily data from 3 sites on:
+
+:::: {.columns}
+::: {.column width="45%"}
+
+{{< bi lightning-fill >}}  
+Daily electricity demand
+
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+
+{{< bi sun-fill >}}  
+Maximum daily temperature
+
+:::
+::::
+
+## Exercise 1 {.center .hcenter}
+
+**Press the "Run cell" buttons** in the introductory section to get R set up and view the data:
+<br><br>
+**▷ Run cell**  
+[or highlight code and use {{< kbd windows=Ctrl+Enter mac=Cmd+Enter >}}]{.small}
+
+## Exercise 1: ggplot2 crash course
+
+::: {.columns}
+::: {.column .small width="40%"}
+
+We're using the `{ggplot2}` package today! With `{ggplot2}`, you:
+
+- tell it **how columns in your data relate to its appearance**, and
+- **add things together** to create a plot
+
+Here're some examples of things you might add:
+
+:::
+::: {.column width="60%"}
+
+```r
+# tell ggplot2 which data to plot
+ggplot(df_long) +
+
+  # tell ggplot2 which data columns mean what
+  aes(x = tmax, y = demand, colour = working) +
+
+  # geoms add layers to your plot. these are points
+  geom_point(size = 2) +
+
+  # facets split your data up into different panels
+  facet_wrap(vars(name)) +
+
+  # add titles, labels for axes and legends, etc.
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]")
+```
+
+:::
+:::
+
+## Exercise 1: ggplot2 crash course
+
+::: {.columns}
+::: {.column .small width="40%"}
+
+![A basic plot of the power and electricity data](/assets/ex1-base.png)
+
+:::
+::: {.column width="60%"}
+
+```r
+# tell ggplot2 which data to plot
+ggplot(df_long) +
+
+  # tell ggplot2 which data columns mean what
+  aes(x = tmax, y = demand, colour = working) +
+
+  # geoms add layers to your plot. these are points
+  geom_point(size = 2) +
+
+  # facets split your data up into different panels
+  facet_wrap(vars(name)) +
+
+  # add titles, labels for axes and legends, etc.
+  labs(
+    x = "2m air temperature [°C]",
+    y = "Electricity demand [MW]")
+```
+
+:::
+:::
+
+## Exercise 1 {.center .hcenter}
+
+Split into groups to **discuss and try making improvements**
+<br><br>
+If you don't feel confident, **scroll further down to see examples** of improvements. Try combining different ones by **adding**
+<br><br>
+**Find ggplot2 examples** at [ggplot2.tidyverse.org/reference](https://ggplot2.tidyverse.org/reference)
+<br><br>
+Tell me what you think would help!
+
+
+# More plotting principles {.section-sunset background="linear-gradient(45deg, #c21500, #ffc500)"}
+
 ## What will your readers see first? {.center .hcenter}
 
 Information designers call this **visual hierarchy**.
@@ -213,101 +361,38 @@ You can also use these elements against each other to fine-tune your visual hier
 
 [Important thing right here!]{style="font-size: 125%; font-weight: bold;"}
 
-## When to draw things, and when not to {.center .hcenter}
-
-Some data vis practitioners refer to a principle called the **data-to-ink ratio**
-<br><br>
-The idea is to minimise the amount of "ink" for the amount of data you're trying to convey.
-
-## When to draw things, and when not to {.center .hcenter}
-
-It's definitely possible to take this principle **too far**—sometimes redundancy can be helpful for people!
-<br><br>
-But it's always worth asking the **purpose plot elements serve**, and whether your plot has a focus or is **too busy**
-
-## One story, or multiple? {.center .hcenter}
-
-If your plot has too many things, or is **trying to tell multiple stories at once**, think about how you can help readers **build up** to that complexity:
-
-:::::{style="margin-block: 30px"}
-::::{.columns style="font-size: 75%;"}
-:::{.column width="30%"}
-Use animation to introduce elements one at a time
-:::
-:::{.column width="30%"}
-Make more than one plot
-:::
-
-:::{.column width="30%"}
-De-emphasise less important info or emphasise more important info
-:::
-::::
-:::::
-
-More complex graphics can be useful when exploring... but in those cases **you** are the audience, and **you know your data best!**
-
-## Building up complexity
-
-```{r}
-#| label: pre-data
-#| echo: false
-#| output: false
-set.seed(0)
-deemph_data = tibble(
-  names = c("Sasha Pearson", "Gunner Galindo", "Corinne Castillo",
-    "Kai McKenzie", "Briar Pena", "Marcus Cardenas", "Raven Alfaro",
-    "Xzavier Hoffman", "Aspen Wade", "Jake Shah", "Angelica Olson",
-    "Malachi Villalobos", "Zoya Bridges", "Mohammed Wilson", "Luna Rowland"),
-  score = rnorm(15, 5, 2),
-  practice = seq(4, 11, 0.5) + rnorm(15, 2, 1),
-  cat = "deemph")
-emph_data = tibble(
-  names = "Outstanding Person",
-  score = 14.5,
-  practice = 1.5)
-all_data = bind_rows(deemph_data, emph_data)
-```
-
-:::: {.columns}
-::: {.column}
-
-```{r}
-#| label: too-many-cats
-
-```
-
-:::
-::: {.column}
-:::
-::::
-
-# [Exercise 1]{.small}<br>Plotting for publication {.section-indigo background="linear-gradient(45deg, #4776e6, #8e54e9)"}
-
-## Exercise 1 {.center}
-
-Open `exercises.qmd`
-
-<br>
-This notebook compares peak electricity demand each day to maximum temperature at 3 sites
-<br><br>
-We'll split into groups and try to make a better plot **for publication**
-<br><br>
-Start by discussing improvements you'd make. If you know R, try making these changes! If not, I have some suggestions you can copy further down 😉
-
 # [Exercise 2]{.small}<br>Plotting for the public{.section-moss background="linear-gradient(45deg, #134e5e, #71b280)"}
 
 ## Exercise 2 {.center}
 
-Continue down `exercises.qmd` file to Exercise 2
+Take the **same plot** we worked on before...
 
-<br>
-This notebook shows **temperatures across Australia** over the course of two hot days.
-<br><br>
-We also have data on regions in New South Wales.
-<br><br>
-Think about the kinds of questions you could answer with this data.
+... but this time, you are making it to go in a **newspaper story**
 
-Start by **discussing improvements** you'd make. If you know R, **try making these changes!** If not, I have some suggestions you can copy further down 😉
+**Who is the audience?** What do they know (or not know)?
+
+## Adding text annotations {.center}
+
+
+:::: {.columns}
+
+::: {.column .small width="40%"}
+
+Text annotations let you **describe what's happening**... but they can be fiddly
+
+Matt Cowgill @ SEEK made `{ggannotate}`. It **helps you place annotations!**
+
+**Run `ggannotate::ggannotate()` to use it →**
+
+[(it gives you ggplot2 code that you can copy in!)]{.small}
+
+:::
+
+::: {.column width="60%"}
+![The ggannotate interface](/assets/images/ggannotate.png)
+:::
+
+::::
 
 # Thank you for having me!
 

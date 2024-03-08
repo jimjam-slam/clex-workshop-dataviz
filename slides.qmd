@@ -328,7 +328,7 @@ Text still needs to be readable!
 :::
 ::::
 
-##Visual hierarchy: reading direction
+## Visual hierarchy: reading direction
 
 Left-to-right?
 
@@ -351,7 +351,7 @@ And we have many ways to build it
 
 ### 
 
-You can also use these elements against each other to fine-tune your visual hierarchy...
+You can also use these elements **against each other** to fine-tune your visual hierarchy...
 <br><br>
 ...but you need to make sure you don't make things too confusing!
 
@@ -384,12 +384,12 @@ Matt Cowgill @ SEEK made `{ggannotate}`. It **helps you place annotations!**
 
 **Run `ggannotate::ggannotate()` to use it →**
 
-[(it gives you ggplot2 code that you can copy in!)]{.small}
+(It gives you ggplot2 code that you can copy and paste!)
 
 :::
 
 ::: {.column width="60%"}
-![The ggannotate interface](/assets/images/ggannotate.png)
+![](/assets/images/ggannotate.png)
 :::
 
 ::::
@@ -407,13 +407,15 @@ Matt Cowgill @ SEEK made `{ggannotate}`. It **helps you place annotations!**
 
 [{{< bi linkedin >}} [linkedin.com/in/jamesgoldie](https://www.linkedin.com/in/jamesgoldie)]{style="color: white;"}
 
-[{{< bi github >}} [github.com/360-info](https://github.com/jimjam-slam)]{style="color: white;"}
+[{{< bi github >}} [github.com/jimjam-slam](https://github.com/jimjam-slam)]{style="color: white;"}
 
 :::
 :::{.column width="55%"}
 
 :::{.callout-tip appearance="simple"}
-[You can keep using today's Codespace at the link in the footer!]{style="color: white;"}
+[You can keep using today's Codespace at the link in the footer]{style="color: white;"}
+
+[If you have [**Docker**](https://docker.com) and [**Visual Studio Code**](https://code.visualstudio.com) installed, you can run this Codespace on your own laptop without Internet!]{style="color: white;"}
 :::
 
 :::

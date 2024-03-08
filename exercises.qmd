@@ -32,8 +32,6 @@ Let's have a look at our processed data, `df_long`:
 View(df_long)
 ```
 
-
-
 Okay, we're ready to visualise the data!
 
 ## Plotting
@@ -159,21 +157,22 @@ Some ones to try that be closer to what a journal expects are:
 * `theme_classic()`
 * `theme_bw()`
 
+You can also change the font and make the text bigger with a theme function!
+
 ```{r}
 #| label: ex1-basetheme
-
+#| 
 ggplot(df_long) +
   aes(x = tmax, y = demand, colour = working) +
   geom_point(size = 2) +
   facet_wrap(vars(name)) +
-  theme_minimal() +
+  theme_minimal(base_family = "Inter", base_size = 18) +
   labs(
     x = "2m air temperature [°C]",
     y = "Electricity demand [MW]")
 ```
 
-
-### Changing pieces of text (that aren't linked to your data)
+### Changing individual pieces of text (that aren't linked to your data)
 
 Even once you have a base theme function, you can customise your plot further using the `theme` function. It has a [long list of options you can customise!](https://ggplot2.tidyverse.org/reference/theme.html)
 
@@ -181,11 +180,9 @@ Most of the options you can customise need to be given an `element_*()` function
 
 For example, to make the X axis title bold and larger, you would add:
 
-:::{.callout-tip}
-The `rel()` function lets you change text size in fractional terms, relative to the plot's base size.
-
-This is handy, because if you add a `base_size` to your base theme function (eg. `theme_grey(base_size = 18)`), you can resize all the text in your plot proportionally, instead of having to update all the text sizes one at a time.
-:::
+> The `rel()` function lets you grow or shrink text, instead of using a fixed size.
+> 
+> This is handy, because if you add a `base_size` to your base theme function (eg. `theme_grey(base_size = 18)`), you can resize all the text in your plot proportionally, instead of having to update all the text sizes one at a time.
 
 ```{r}
 #| label: ex1-largertext
@@ -235,7 +232,7 @@ ggplot(df_long) +
 
 Journals often prefer you to tell a plot's story in the figure caption.
 
-But most people see the caption last. If you add a plot title and make it big enough, it'll probably be the first thing most people see!
+But most people see the `caption` last. If you add a plot `title` and make it big enough, it'll probably be the first thing most people see!
 
 What should you use for a title? There are a few approaches. It's a good idea to make sure people can tell _what_ you're plotting, so you could use use a plot title or subtitle for that (especially if you've elected not to label an axis).
 
@@ -268,7 +265,7 @@ There're a few ways to annotate a plot:
 - We could label every point using `geom_text()`—but with hundreds of points, this could be hard to read!
 - We could label a few interesting points by filtering our dataset and passing it as the `data` argument to `geom_text()`:
   - `geom_text(data = interesting_points_only)`
-- We could add a couple of fixed labels to
+- We could add a couple of fixed labels to the corners of the panels
 
 let's try the last option:
 
